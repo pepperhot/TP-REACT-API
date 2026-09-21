@@ -109,3 +109,64 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* --- Mise en page de l'application --- */
+
+#root {
+  text-align: left;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-family: var(--heading);
+  font-size: 20px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.nav-link:hover {
+  color: var(--text-h);
+}
+
+.nav-link.active {
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.site-main {
+  flex: 1;
+  padding: 24px;
+}
+
+.site-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
