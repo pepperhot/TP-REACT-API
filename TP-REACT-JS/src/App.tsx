@@ -1,45 +1,30 @@
-import { useEffect, useState } from 'react'
+import { Link, Route, Routes } from "react-router-dom";
+import Artworks from "./pages/Artworks";
+import ArtworkDetails from "./pages/ArtworkDetails";
+import Selection from "./pages/Selection";
+import Proposer from "./pages/Proposer";
+import { useSelection } from "./context/SelectionContext";
 
-type Artwork = {
-  id: number
-  title: string
-  artist_title: string | null
-  image_id: string | null
-}
-
-function App() {
-  const [artworks, setArtworks] = useState<Artwork[]>([])
-  const [iiifUrl, setIiifUrl] = useState('')
-
-  useEffect(() => {-
-    fetch('https://api.artic.edu/api/v1/artworks?page=1&limit=24&fields=id,title,artist_title,date_display,image_id')
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(Object.keys(json.data[0]))
-        setArtworks(json.data)
-        setIiifUrl(json.config.iiif_url)
-      })
-  }, [])
+export default function App() {
+  const { selection } = useSelection();
 
   return (
     <>
-      <h1>Oeuvres</h1>
-      <ul>
-        {artworks.map((artwork) => (
-          <li key={artwork.id}>
-            {artwork.image_id && (
-              <img
-                src={`${iiifUrl}/${artwork.image_id}`}
-                alt={artwork.title}
-                width="120"
-              />
-            )}
-            {artwork.title} - {artwork.artist_title}
-          </li>
-        ))}
-      </ul>
-    </>
-  )
-}
+      <h1>Art Institute</h1>
 
-export default App
+      <nav>
+        <Link to="/">Catalogue</Link>{" | "}
+        <Link to="/selection">Ma sélection ({selection.length})</Link>{" | "}
+        <Link to="/proposer">Proposer</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Artworks />} />
+        <Route path="/oeuvres/:id" element={<ArtworkDetails />} />
+        <Route path="/selection" element={<Selection />} />
+        <Route path="/proposer" element={<Proposer />} />
+        <Route path="*" element={<p>Page introuvable.</p>} />
+      </Routes>
+    </>
+  );
+}
