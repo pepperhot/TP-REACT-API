@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import type { Artwork } from "../types/Artwork";
+import type { Artwork, ArtworkApiResponse } from "../types/Artwork";
 import { artistName, imageUrl } from "../utils/artwork";
 import { useSelection } from "../context/SelectionContext";
 
 const CATALOGUE_URL =
-  "https://api.artic.edu/api/v1/artworks?page=1&limit=24&fields=id,title,artist_title,date_display,image_id";
+  "https://api.artic.edu/api/v1/artworks/search?query[bool][must][0][exists][field]=image_id&page=1&limit=24&fields=id,title,artist_title,date_display,image_id";
 
 export default function Artworks() {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [iiifUrl, setIiifUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -24,8 +25,9 @@ export default function Artworks() {
           throw new Error(`Erreur HTTP : ${response.status}`);
         }
 
-        const json = await response.json();
+        const json: ArtworkApiResponse<Artwork[]> = await response.json();
         setArtworks(json.data);
+        setIiifUrl(json.config.iiif_url);
       } catch {
         setError("Impossible de charger le catalogue.");
       } finally {
@@ -67,9 +69,9 @@ export default function Artworks() {
 
       <p>{visible.length} œuvre(s) sur {artworks.length}</p>
 
-      <ul>
+      <ul className="artwork-grid">
         {visible.map((artwork) => {
-          const source = imageUrl(artwork.image_id);
+          const source = imageUrl(iiifUrl, artwork.image_id);
 
           return (
             <li key={artwork.id}>

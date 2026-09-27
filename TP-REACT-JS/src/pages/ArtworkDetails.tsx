@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import type { Artwork } from "../types/Artwork";
+import type { Artwork, ArtworkApiResponse } from "../types/Artwork";
 import { artistName, imageUrl } from "../utils/artwork";
 import { useSelection } from "../context/SelectionContext";
 
 export default function ArtworkDetails() {
   const { id } = useParams();
   const [artwork, setArtwork] = useState<Artwork | null>(null);
+  const [iiifUrl, setIiifUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toggleSelection, isSelected } = useSelection();
@@ -27,8 +28,9 @@ export default function ArtworkDetails() {
           throw new Error(`Erreur HTTP : ${response.status}`);
         }
 
-        const json = await response.json();
+        const json: ArtworkApiResponse<Artwork> = await response.json();
         setArtwork(json.data);
+        setIiifUrl(json.config.iiif_url);
       } catch {
         setError(`Aucune œuvre ne correspond à l'identifiant ${id}.`);
       } finally {
@@ -51,7 +53,7 @@ export default function ArtworkDetails() {
     );
   }
 
-  const source = imageUrl(artwork.image_id);
+  const source = imageUrl(iiifUrl, artwork.image_id);
 
   return (
     <>

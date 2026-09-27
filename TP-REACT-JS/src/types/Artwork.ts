@@ -11,3 +11,10 @@ export interface Artwork {
   date_display: string | null;
   image_id: string | null;
 }
+
+export interface ArtworkApiResponse<T> {
+  config: {
+    iiif_url: string;
+  };
+  data: T;
+}

@@ -9,22 +9,27 @@ export default function App() {
   const { selection } = useSelection();
 
   return (
-    <>
-      <h1>Art Institute</h1>
+    <div className="museum-shell">
+      <header className="site-header">
+        <p className="museum-kicker">Collection en ligne</p>
+        <h1>Art Institute</h1>
 
-      <nav>
-        <Link to="/">Catalogue</Link>{" | "}
-        <Link to="/selection">Ma sélection ({selection.length})</Link>{" | "}
-        <Link to="/proposer">Proposer</Link>
-      </nav>
+        <nav className="site-nav">
+          <Link to="/">Catalogue</Link>
+          <Link to="/selection">Ma sélection ({selection.length})</Link>
+          <Link to="/proposer">Proposer une œuvre</Link>
+        </nav>
+      </header>
 
-      <Routes>
-        <Route path="/" element={<Artworks />} />
-        <Route path="/oeuvres/:id" element={<ArtworkDetails />} />
-        <Route path="/selection" element={<Selection />} />
-        <Route path="/proposer" element={<Proposer />} />
-        <Route path="*" element={<p>Page introuvable.</p>} />
-      </Routes>
-    </>
+      <main className="site-content">
+        <Routes>
+          <Route path="/" element={<Artworks />} />
+          <Route path="/oeuvres/:id" element={<ArtworkDetails />} />
+          <Route path="/selection" element={<Selection />} />
+          <Route path="/proposer" element={<Proposer />} />
+          <Route path="*" element={<p>Page introuvable.</p>} />
+        </Routes>
+      </main>
+    </div>
   );
 }
