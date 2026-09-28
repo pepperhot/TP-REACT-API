@@ -8,4 +8,16 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  server: {
+    proxy: {
+      '/iiif': {
+        target: 'https://www.artic.edu',
+        changeOrigin: true,
+        headers: {
+          'AIC-User-Agent': 'TP-REACT-JS',
+          Referer: 'https://www.artic.edu/',
+        },
+      },
+    },
+  },
 })
