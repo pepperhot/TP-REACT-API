@@ -193,7 +193,3 @@ const visible = artworks.filter(
 - Plus de tests de composants
 
 ---
-
-# Merci — questions ?
-Démo en direct : [URL déployée]
-Dépôt Git : [lien]
