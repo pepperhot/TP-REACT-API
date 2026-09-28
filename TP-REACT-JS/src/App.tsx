@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 import Artworks from "./pages/Artworks";
 import ArtworkDetails from "./pages/ArtworkDetails";
 import Selection from "./pages/Selection";
@@ -15,11 +15,15 @@ export default function App() {
         <h1>Art Institute</h1>
 
         <nav className="site-nav">
-          <Link to="/">Catalogue</Link>
-          <Link to="/selection">Ma sélection ({selection.length})</Link>
-          <Link to="/proposer">Proposer une œuvre</Link>
+          <NavLink to="/" end>Catalogue</NavLink>
+          <NavLink to="/selection">
+            Ma sélection <span className="badge">{selection.length}</span>
+          </NavLink>
+          <NavLink to="/proposer">Proposer une œuvre</NavLink>
         </nav>
       </header>
+
+      <div className="ticks"></div>
 
       <main className="site-content">
         <Routes>

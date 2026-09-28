@@ -1,5 +1,8 @@
 import type { Artwork } from "../types/Artwork";
 
+/** Serveur d'images de l'API, pour afficher la sélection sans refaire d'appel. */
+export const IIIF_URL = "https://www.artic.edu/iiif/2";
+
 /**
  * L'API ne donne pas d'URL d'image : on la construit avec config.iiif_url
  * et image_id. Beaucoup d'œuvres ont image_id à null, on renvoie alors null.

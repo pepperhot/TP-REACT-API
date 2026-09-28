@@ -53,7 +53,7 @@ export default function Artworks() {
     <>
       <h2>Catalogue</h2>
 
-      <p>
+      <p className="filters">
         <input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
@@ -67,7 +67,7 @@ export default function Artworks() {
         </select>
       </p>
 
-      <p>{visible.length} œuvre(s) sur {artworks.length}</p>
+      <p className="result-count">{visible.length} œuvre(s) sur {artworks.length}</p>
 
       <ul className="artwork-grid">
         {visible.map((artwork) => {
@@ -75,10 +75,13 @@ export default function Artworks() {
 
           return (
             <li key={artwork.id}>
-              {source && <img src={source} alt={artwork.title} width="120" />}
-              <Link to={`/oeuvres/${artwork.id}`}>{artwork.title}</Link>
-              {" — "}
-              {artistName(artwork)}
+              <Link to={`/oeuvres/${artwork.id}`} className="card-image">
+                {source ? <img src={source} alt={artwork.title} loading="lazy" /> : <span>Pas d'image</span>}
+              </Link>
+              <div className="card-body">
+                <Link to={`/oeuvres/${artwork.id}`}>{artwork.title}</Link>
+                <p>{artistName(artwork)}</p>
+              </div>
               <button onClick={() => toggleSelection(artwork)}>
                 {isSelected(artwork.id) ? "Retirer" : "Ajouter"}
               </button>
